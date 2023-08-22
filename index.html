@@ -3,9 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;500;700&family=Kumbh+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
     
+    
+    <header class="header">
+        <div class="container">
+            <div class="header__title">TodoList</div>
+            <nav class="header__nav">
+                <ul class="header__list">
+                    <li>
+                        <button class="header__list-item header__list-item__active">All</button>
+                    </li>
+                    <li class="header__list-item">Deleted</li>
+                    <li class="header__list-item">Favorites</li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section class="main__form">
+            <div class="container">
+                <form class="form" action="">
+                    <input type="text" class="form__input" placeholder="Add new item">
+                    <input type="submit" class="form__button" value="add">
+                </form>
+            </div>
+        </section>
+
+        <section class="section__filter">
+            <div class="container">
+                <div class="filter">все  <img src="filter.png" alt=""></div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <ul class="task__list">
+                    <li class="task__item">
+                        <div class="task__block">
+                            <input type="checkbox" class="task__checkbox">
+                            <p class="task__text">hello gadji</p>
+                        </div>
+                        <div class="setting">
+                            <select class="setting__bar">
+                                <option disabled>настроить</option>
+                                <option>избранное</option>
+                                <option>удалить</option>
+                                <option>изменить</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li class="task__item">
+                        <div class="task__block">
+                            <input type="checkbox" class="task__checkbox">
+                            <p class="task__text">hello gadji</p>
+                        </div>
+                        <div class="setting">
+                            <select class="setting__bar">
+                                <option disabled>настроить</option>
+                                <option>избранное</option>
+                                <option>удалить</option>
+                                <option>изменить</option>
+                            </select>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
 </body>
 </html>
