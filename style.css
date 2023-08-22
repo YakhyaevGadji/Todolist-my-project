@@ -111,3 +111,8 @@ ul {
 .filter {
     margin-bottom: 20px;
 }
+
+
+.task__text_active {
+    text-decoration: line-through;
+}

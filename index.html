@@ -30,7 +30,7 @@
         <section class="main__form">
             <div class="container">
                 <form class="form" action="">
-                    <input type="text" class="form__input" placeholder="Add new item">
+                    <input type="text" class="form__input" id="input" placeholder="Add new item">
                     <input type="submit" class="form__button" value="add">
                 </form>
             </div>
@@ -44,33 +44,25 @@
 
         <section>
             <div class="container">
-                <ul class="task__list">
+                <ul class="task__list" id="list">
                     <li class="task__item">
                         <div class="task__block">
-                            <input type="checkbox" class="task__checkbox">
+                            <input type="checkbox" class="task__checkbox" data-action="checkbox">
                             <p class="task__text">hello gadji</p>
                         </div>
                         <div class="setting">
-                            <select class="setting__bar">
-                                <option disabled>настроить</option>
-                                <option>избранное</option>
-                                <option>удалить</option>
-                                <option>изменить</option>
-                            </select>
+                            <button class="task__remove">delete</button>
+                            <input type="checkbox" id="favorites">
                         </div>
                     </li>
                     <li class="task__item">
                         <div class="task__block">
-                            <input type="checkbox" class="task__checkbox">
+                            <input type="checkbox" class="task__checkbox" data-action="checkbox">
                             <p class="task__text">hello gadji</p>
                         </div>
                         <div class="setting">
-                            <select class="setting__bar">
-                                <option disabled>настроить</option>
-                                <option>избранное</option>
-                                <option>удалить</option>
-                                <option>изменить</option>
-                            </select>
+                            <button class="task__remove">delete</button>
+                            <input type="checkbox" id="favorites">
                         </div>
                     </li>
                 </ul>
@@ -78,5 +70,7 @@
         </section>
     </main>
 
+
+    <script src="main.js"></script>
 </body>
 </html>
