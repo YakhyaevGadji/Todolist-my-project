@@ -3,6 +3,7 @@ const input = document.querySelector('#input');
 const list = document.querySelector('#list');
 
 form.addEventListener('submit', addNewTask);
+list.addEventListener('dblclick', changeTextInTask);
 
 let tasks = [];
 
@@ -16,7 +17,8 @@ function addNewTask(event) {
         id: Date.now(),
         title: inputValue,
         done: false,
-        favorites: false
+        favorites: false,
+        deleted: false
     }
 
     if(inputValue.trim() !== "") {
@@ -40,4 +42,20 @@ function taskHtml(taskInfo) {
     </li>`;
 
     return taskHTML
+}
+function changeTextInTask(event) {
+    if(event.target.dataset.action === 'taskText') {
+        const taskText = event.target;
+        const newInput = document.createElement('input');
+        newInput.value = taskText.textContent;
+        taskText.textContent = '';
+
+        newInput.addEventListener('blur', function() {
+            taskText.textContent = newInput.value;
+            newInput.remove();
+        });
+
+        taskText.appendChild(newInput);
+        newInput.focus();
+    }
 }
