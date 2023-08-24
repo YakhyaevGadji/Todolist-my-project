@@ -1,61 +1,81 @@
-const form = document.querySelector('.form');
+const from = document.querySelector('.form');
 const input = document.querySelector('#input');
 const list = document.querySelector('#list');
 
-form.addEventListener('submit', addNewTask);
-list.addEventListener('dblclick', changeTextInTask);
+from.addEventListener('submit', addNewTask);
+list.addEventListener('click', taskDone);
+list.addEventListener('dblclick', chengeTextInTask);
+// list.addEventListener('click', taskDelete);
 
 let tasks = [];
 
 function addNewTask(event) {
     event.preventDefault();
-    
-    const inputValue = input.value;
-    input.focus();
 
-    let taskInfo = {
+    const taskInfo = {
         id: Date.now(),
-        title: inputValue,
+        title: input.value,
         done: false,
         favorites: false,
         deleted: false
     }
-
-    if(inputValue.trim() !== "") {
-        list.insertAdjacentHTML('beforeend', taskHtml(taskInfo))
-    }
-
-    input.value= '';
-}
-function taskHtml(taskInfo) {
-    const stlyeTask = taskInfo.done ? "task__text_active" : "task__text";
+   
+    const cssTask = taskInfo.done ? 'task__text_active' : 'task__text';
 
     const taskHTML = `<li class="task__item" id="${taskInfo.id}">
         <div class="task__block">
-            <input type="checkbox" class="task__checkbox" data-action="checkbox">
-            <p class="${stlyeTask}">${taskInfo.title}</p>
+            <input type="checkbox" class="task__checkbox" data-action="done">
+            <p class="${cssTask}" data-action="taskText">${taskInfo.title}</p>
         </div>
-        <div class="setting">
-            <button class="task__remove">delete</button>
-            <input type="checkbox" id="favorites">
+         <div class="setting">
+            <button class="task__remove" data-action="delete">delete</button>
+            <input type="checkbox" data-action="favorites">
         </div>
-    </li>`;
+    </li`;
 
-    return taskHTML
+    list.insertAdjacentHTML('beforeend', taskHTML);
+
+    tasks.push(taskInfo);
+    input.value = '';
 }
-function changeTextInTask(event) {
-    if(event.target.dataset.action === 'taskText') {
-        const taskText = event.target;
-        const newInput = document.createElement('input');
-        newInput.value = taskText.textContent;
-        taskText.textContent = '';
 
-        newInput.addEventListener('blur', function() {
-            taskText.textContent = newInput.value;
-            newInput.remove();
+function taskDone(event) {
+    if(event.target.dataset.action === 'done') {
+        const parent = event.target.closest('.task__item');
+        const parentId = Number(parent.id);
+        const taskTitle = parent.querySelector('[data-action="taskText"]');
+
+        tasks.findIndex((item) => {
+            if(parentId === item.id) {
+                item.done = !item.done;
+            }
         });
+        taskTitle.classList.toggle('task__text_active');
+    }
+}
+function chengeTextInTask(event) {
+    if(event.target.dataset.action === 'taskText') {
+        const parent = event.target.closest('.task__item');
+        const parentId = Number(parent.id);
+        const parentEl = event.target.parentElement;
+        const taskTitle = event.target;
+        const taskNewInput = document.createElement('input');
 
-        taskText.appendChild(newInput);
-        newInput.focus();
+        parentEl.appendChild(taskNewInput);
+        taskNewInput.value = taskTitle.textContent;
+        taskTitle.textContent = '';
+
+        taskNewInput.addEventListener('blur', function() {
+            taskTitle.textContent = taskNewInput.value;
+
+            tasks.forEach((item) => {
+                if(parentId === item.id) {
+                    item.title = taskNewInput.value;
+                }
+            });
+
+            taskNewInput.remove();
+        });
+        taskNewInput.focus();
     }
 }
