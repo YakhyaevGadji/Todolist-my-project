@@ -143,15 +143,11 @@ function taskFaforite(event) {
             if(parentId === item.id) {
                 if(item.favorites) {
                     item.favorites = false;
-
-                    date.favorites.forEach((item, index) => {
-                        if(parentId === item.id) {
-                            date.favorites.splice(index, 1);
-                        }
-                    });
+                    parentEl.remove();
+                    date.favorites.splice(item, 1);
                 }else {
                     item.favorites = true;
-                    item.favorites.push(item);
+                    date.favorites.push(item);
                 }
             }
         });
