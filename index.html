@@ -18,10 +18,14 @@
             <nav class="header__nav">
                 <ul class="header__list">
                     <li>
-                        <button class="header__list-item header__list-item__active">All</button>
+                        <button class="header__list-item header__list-item__active" data-card="all">All</button>
                     </li>
-                    <li class="header__list-item">Deleted</li>
-                    <li class="header__list-item">Favorites</li>
+                    <li>
+                        <button class="header__list-item" data-card="delete">Deleted</button> 
+                    </li>
+                    <li>
+                        <button class="header__list-item" data-card="favorite">Favorites</button> 
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -38,7 +42,15 @@
 
         <section class="section__filter">
             <div class="container">
-                <div class="filter">все  <img src="filter.png" alt=""></div>
+                <button class="filter" id="filter">все <img src="filter.png" alt=""></button>
+                <ul class="filter__list">
+                    <li class="list__item">
+                        <button class="list__item-btn" data-filter="new">Сначало новые</button>
+                    </li>
+                    <li class="list__item">
+                        <button class="list__item-btn" data-filter="old">Сначало старые</button>
+                    </li>
+                </ul>
             </div>
         </section>
 

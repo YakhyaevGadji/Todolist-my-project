@@ -110,9 +110,27 @@ ul {
 }
 .filter {
     margin-bottom: 20px;
+    width: 50px;
+    margin-right: 0;
+    margin-left: 515px;
+    margin-bottom: 0;
+    cursor: pointer;
 }
-
-
+.filter_active::after {
+    content: "";
+    width: 50px;
+    height: 100px;
+    background-color: red;
+    display: block;
+}
+.filter__list {
+    display: none;
+}
+.filter__list_active {
+    display: block;
+    position: absolute;
+    right: 0;
+}
 .task__text_active {
     text-decoration: line-through;
 }
