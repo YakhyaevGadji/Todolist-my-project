@@ -1,9 +1,6 @@
 const from = document.querySelector('.form');
 const input = document.querySelector('#input');
 const list = document.querySelector('#list');
-const allBtn = document.querySelector('[data-card="all"]');
-const deleteBtn = document.querySelector('[data-card="delete"]');
-const favoriteBtn = document.querySelector('[data-card="favorite"]');
 const buttonsRow = document.querySelectorAll('.header__list-item');
 const filterBtn = document.querySelector('#filter');
 const filterList = document.querySelector('.filter__list');
@@ -15,14 +12,17 @@ list.addEventListener('dblclick', chengeTextInTask);
 list.addEventListener('click', taskDelete);
 list.addEventListener('click', taskFaforite);
 
-deleteBtn.addEventListener('click', renderDeleteTask);
-allBtn.addEventListener('click', renderAllTask);
-favoriteBtn.addEventListener('click', renderFavoriteTask);
+buttonsRow.forEach((item) => {
+    item.addEventListener('click', changeTable);
+});
+
 filterBtn.addEventListener('click', styleActiveInFilter);
 
 filters.forEach((filter) => {
     filter.addEventListener('click', filterTaskList);
 });
+
+let STATE = 'all';
 
 let date = {
     all: [],
@@ -121,15 +121,18 @@ function taskDelete(event) {
         const parentEl = event.target.closest('.task__item');
         const parentId = Number(parentEl.id);
         
-        const taskIndex = date.all.findIndex((item) => {
+        date[STATE].forEach((item, index) => {
             if(item.id === parentId) {
-                item.deleted = !item.deleted;
-                date.deleted.push(item);
-                return true;
+                if(item.deleted === false) {
+                    item.deleted = true;
+                    date.all.splice(index, 1);
+                    date.deleted.push(item);
+                }else {
+                    date.deleted.splice(index, 1);
+                }
             }
         });
-
-        date.all.splice(taskIndex, 1);
+        
         parentEl.remove();
     }
 }
@@ -143,7 +146,6 @@ function taskFaforite(event) {
             if(parentId === item.id) {
                 if(item.favorites) {
                     item.favorites = false;
-                    parentEl.remove();
                     date.favorites.splice(item, 1);
                 }else {
                     item.favorites = true;
@@ -154,19 +156,6 @@ function taskFaforite(event) {
         
     }
 }
-function renderDeleteTask() {
-    const childrens = list.querySelectorAll('.task__item');
-    
-    childrens.forEach((item) => {
-        item.remove();
-    });
-    
-    date.deleted.forEach((item) => {
-        list.insertAdjacentHTML('beforeend', renderHtmlTask(item));
-    });
-
-    activeButtonTask(this);
-}
 function renderAllTask() {
     const childrens = list.querySelectorAll('.task__item');
     
@@ -174,31 +163,24 @@ function renderAllTask() {
         item.remove();
     });
     
-    date.all.forEach((item) => {
+    date[STATE].forEach((item) => {
         list.insertAdjacentHTML('beforeend', renderHtmlTask(item));
     });
 
-    activeButtonTask(this);
 }
-function renderFavoriteTask() {
-    const childrens = list.querySelectorAll('.task__item');
-    
-    childrens.forEach((item) => {
-        item.remove();
-    });
-    
-    date.favorites.forEach((item) => {
-        list.insertAdjacentHTML('beforeend', renderHtmlTask(item));
-    });
-    
-    activeButtonTask(this);
-}
-function activeButtonTask(elem) {
+
+function changeTable() {
+    const atr = this.getAttribute('data-card');
+    STATE = atr;
+    console.log(STATE);
     buttonsRow.forEach((item) => {
         item.classList.remove('header__list-item__active');
     });
-    elem.classList.add('header__list-item__active');
+
+    this.classList.add('header__list-item__active');
+    renderAllTask();
 }
+
 function styleActiveInFilter() {
     if(filterList.classList[1] === 'filter__list_active') {
         filterList.classList.remove('filter__list_active');
@@ -207,12 +189,14 @@ function styleActiveInFilter() {
     }
 }
 function filterTaskList() {
-    if(this.dataset.filter === 'new') {
-        date.all.forEach((item) => {
-            
-        });
-    }else {
-        
+    const atr = this.getAttribute('data-filter');
+    let newDate;
+
+    if(this.getAttribute('data-filter') !== "") {
+        if(atr === 'old') {
+            newDate = date[STATE].sort((a, b) => b.id - a.id);
+            console.log(newDate);
+        }
     }
     filterList.classList.toggle('filter__list_active');
 }
