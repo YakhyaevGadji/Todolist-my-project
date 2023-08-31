@@ -1,3 +1,17 @@
+(function(){
+    const obj = localStorage.getItem('date');
+    const date2 = {
+      all: [],
+      deleted: [],
+      favorites: [],
+    };
+    if(obj === null) {
+      localStorage.setItem("date", JSON.stringify(date2));
+    }else {
+      return
+    }
+})()
+
 const from = document.querySelector('.form');
 const input = document.querySelector('#input');
 const list = document.querySelector('#list');
@@ -24,11 +38,9 @@ filters.forEach((filter) => {
 
 let STATE = 'all';
 
-let date = {
-    all: [],
-    deleted: [],
-    favorites: []
-};
+
+
+const date = getDateLocalStorage();
 
 function addNewTask(event) {
     event.preventDefault();
@@ -46,6 +58,7 @@ function addNewTask(event) {
     date.all.push(taskInfo);
     
     input.value = '';
+    addToLocalStorage();
 }
 
 function renderHtmlTask(taskInfo) {
@@ -87,6 +100,7 @@ function taskDone(event) {
             }
         });
         taskTitle.classList.toggle('task__text_active');
+        addToLocalStorage();
     }
 }
 function chengeTextInTask(event) {
@@ -107,12 +121,14 @@ function chengeTextInTask(event) {
             date.all.forEach((item) => {
                 if(parentId === item.id) {
                     item.title = taskNewInput.value;
+                    addToLocalStorage();
                 }
             });
 
             taskNewInput.remove();
         });
         taskNewInput.focus();
+        
     }
 }
 
@@ -127,8 +143,10 @@ function taskDelete(event) {
                     item.deleted = true;
                     date.all.splice(index, 1);
                     date.deleted.push(item);
+                    addToLocalStorage();
                 }else {
                     date.deleted.splice(index, 1);
+                    addToLocalStorage();
                 }
             }
         });
@@ -147,9 +165,11 @@ function taskFaforite(event) {
                 if(item.favorites) {
                     item.favorites = false;
                     date.favorites.splice(item, 1);
+                    addToLocalStorage();
                 }else {
                     item.favorites = true;
                     date.favorites.push(item);
+                    addToLocalStorage();
                 }
             }
         });
@@ -199,15 +219,25 @@ function filterTaskList() {
             newDate.forEach((item) => {
                 list.insertAdjacentHTML('beforeend', renderHtmlTask(item));
             });
+            addToLocalStorage();
         }else {
             list.innerHTML = '';
             newDate = date[STATE].sort((a, b) => a.id - b.id);
             newDate.forEach((item) => {
                 list.insertAdjacentHTML('beforeend', renderHtmlTask(item));
             });
+            addToLocalStorage();
         }
     }
     filterList.classList.toggle('filter__list_active');
 }
-
-
+function addToLocalStorage() {
+    localStorage.setItem("date", JSON.stringify(date));
+}
+function clearLocalStorage() {
+    localStorage.clear();
+}
+function getDateLocalStorage() {
+    return JSON.parse(localStorage.getItem("date"));
+}
+renderAllTask();
