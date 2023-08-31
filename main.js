@@ -194,8 +194,17 @@ function filterTaskList() {
 
     if(this.getAttribute('data-filter') !== "") {
         if(atr === 'old') {
+            list.innerHTML = '';
             newDate = date[STATE].sort((a, b) => b.id - a.id);
-            console.log(newDate);
+            newDate.forEach((item) => {
+                list.insertAdjacentHTML('beforeend', renderHtmlTask(item));
+            });
+        }else {
+            list.innerHTML = '';
+            newDate = date[STATE].sort((a, b) => a.id - b.id);
+            newDate.forEach((item) => {
+                list.insertAdjacentHTML('beforeend', renderHtmlTask(item));
+            });
         }
     }
     filterList.classList.toggle('filter__list_active');
